@@ -207,11 +207,22 @@ end
 -- @tparam number far Far plane
 -- @treturn mat4 out
 function mat4.from_perspective(fovy, aspect, near, far)
+	local out = new()
+	return out:perspective(fovy, aspect, near, far)
+end
+
+--- Set matrix to perspective.
+-- @tparam number fovy Field of view
+-- @tparam number aspect Aspect ratio
+-- @tparam number near Near plane
+-- @tparam number far Far plane
+-- @treturn mat4 out
+function mat4:perspective(fovy, aspect, near, far)
 	assert(aspect ~= 0)
 	assert(near   ~= far)
 
 	local t   = tan(rad(fovy) / 2)
-	local out = new()
+	local out = self
 	out[1]    =  1 / (t * aspect)
 	out[6]    =  1 / t
 	out[11]   = -(far + near) / (far - near)
